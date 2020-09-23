@@ -734,7 +734,8 @@ open class HtmlRenderer(
         buildHtml(page, page.embeddedResources) {
             div {
                 id = "content"
-                attributes["pageIds"] = page.pageId
+                // TODO: Investigate possible problem
+                attributes["pageIds"] = "${context.configuration.moduleName}::${page.pageId}"
                 content(this, page)
             }
         }
