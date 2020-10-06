@@ -27,6 +27,7 @@ import org.jetbrains.dokka.base.translators.documentables.DefaultDocumentableToP
 import org.jetbrains.dokka.base.translators.documentables.PageContentBuilder
 import org.jetbrains.dokka.base.translators.psi.DefaultPsiToDocumentableTranslator
 import org.jetbrains.dokka.plugability.DokkaPlugin
+import org.jetbrains.dokka.plugability.configuration
 import org.jetbrains.dokka.transformers.pages.PageTransformer
 
 class DokkaBase : DokkaPlugin() {
@@ -113,6 +114,7 @@ class DokkaBase : DokkaPlugin() {
     val documentableToPageTranslator by extending {
         CoreExtensions.documentableToPageTranslator providing { ctx ->
             DefaultDocumentableToPageTranslator(
+                configuration<DokkaBase, DokkaBaseConfiguration>(ctx),
                 ctx.single(commentsToContentConverter),
                 ctx.single(signatureProvider),
                 ctx.logger
