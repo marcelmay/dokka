@@ -60,7 +60,10 @@ inline fun <reified P : DokkaPlugin, reified E : Any> P.query(extension: P.() ->
     context?.let { it[extension()] } ?: throwIllegalQuery()
 
 inline fun <reified P : DokkaPlugin, reified E : Any> P.querySingle(extension: P.() -> ExtensionPoint<E>): E =
-    context?.single(extension()) ?: throwIllegalQuery()
+    querySingleOrNull(extension) ?: throwIllegalQuery()
+
+inline fun <reified P : DokkaPlugin, reified E : Any> P.querySingleOrNull(extension: P.() -> ExtensionPoint<E>): E? =
+    context?.single(extension())
 
 fun throwIllegalQuery(): Nothing =
     throw IllegalStateException("Querying about plugins is only possible with dokka context initialised")
