@@ -1,5 +1,5 @@
 
-package org.jetbrains.dokka.generation
+package org.jetbrains.dokka.base.generation
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -7,9 +7,14 @@ import org.jetbrains.dokka.CoreExtensions
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.DokkaException
 import org.jetbrains.dokka.Timer
+import org.jetbrains.dokka.base.DokkaBase
+import org.jetbrains.dokka.generation.Generation
+import org.jetbrains.dokka.generation.exitGenerationGracefully
 import org.jetbrains.dokka.model.DModule
 import org.jetbrains.dokka.pages.RootPageNode
 import org.jetbrains.dokka.plugability.DokkaContext
+import org.jetbrains.dokka.plugability.plugin
+import org.jetbrains.dokka.plugability.query
 import org.jetbrains.dokka.utilities.parallelMap
 import org.jetbrains.dokka.utilities.report
 
@@ -50,7 +55,7 @@ class SingleModuleGeneration(private val context: DokkaContext) : Generation {
     }
 
     fun transformDocumentationModelBeforeMerge(modulesFromPlatforms: List<DModule>) =
-        context[CoreExtensions.preMergeDocumentableTransformer].fold(modulesFromPlatforms) { acc, t -> t(acc) }
+        context.plugin<DokkaBase>().query { preMergeDocumentableTransformer }.fold(modulesFromPlatforms) { acc, t -> t(acc) }
 
     fun mergeDocumentationModels(modulesFromPlatforms: List<DModule>) =
         context.single(CoreExtensions.documentableMerger).invoke(modulesFromPlatforms)

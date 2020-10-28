@@ -25,7 +25,9 @@ class JavadocPlugin : DokkaPlugin() {
 
     val dokkaJavadocPlugin by extending {
         (CoreExtensions.renderer
-                providing { ctx -> KorteJavadocRenderer(dokkaBasePlugin.querySingle { outputWriter }, ctx, "views") }
+                providing {
+                ctx -> KorteJavadocRenderer(dokkaBasePlugin.querySingle { outputWriter }, ctx, "views")
+        }
                 override dokkaBasePlugin.htmlRenderer)
     }
 
@@ -46,7 +48,7 @@ class JavadocPlugin : DokkaPlugin() {
     }
 
     val documentableSourceSetFilter by extending {
-        CoreExtensions.preMergeDocumentableTransformer providing { context -> JavadocDocumentableJVMSourceSetFilter(context) }
+        dokkaBasePlugin.preMergeDocumentableTransformer providing { context -> JavadocDocumentableJVMSourceSetFilter(context) }
     }
 
     val javadocLocationProviderFactory by extending {
