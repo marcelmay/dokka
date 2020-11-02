@@ -71,7 +71,24 @@ function handleAnchor() {
                 content.classList.add('anchor-highlight')
                 highlightedAnchor = content
             }
-            document.getElementById('main').scrollTo({ top: element.offsetTop - topNavbarOffset.offsetHeight, behavior: "smooth"})
+
+            const scrollToElement = () => document.getElementById('main').scrollTo({ top: element.offsetTop - topNavbarOffset.offsetHeight, behavior: "smooth"})
+
+            const waitAndScroll = () => {
+                setTimeout(() => {
+                    if(topNavbarOffset){
+                        scrollToElement()
+                    } else {
+                        waitForScroll()
+                    }
+                }, 100)
+            }
+
+            if(topNavbarOffset){
+                scrollToElement()
+            } else {
+                waitAndScroll()
+            }
         }
     }
 }
