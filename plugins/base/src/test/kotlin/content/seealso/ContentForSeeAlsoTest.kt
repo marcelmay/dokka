@@ -2,11 +2,11 @@ package content.seealso
 
 import matchers.content.*
 import org.jetbrains.dokka.pages.ContentPage
-import org.jetbrains.dokka.testApi.testRunner.AbstractCoreTest
+import org.jetbrains.dokka.base.testApi.testRunner.BaseAbstractTest
 import org.junit.jupiter.api.Test
 import utils.*
 
-class ContentForSeeAlsoTest : AbstractCoreTest() {
+class ContentForSeeAlsoTest : BaseAbstractTest() {
     private val testConfiguration = dokkaConfiguration {
         sourceSets {
             sourceSet {
